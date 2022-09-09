@@ -11,7 +11,11 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private val viewModel: MainScreenViewModel by viewModel()
     private val recyclerView: RecyclerView by lazy { requireActivity().findViewById(R.id.rvArticles) }
-    private val adapter: ArticlesAdapter by lazy { ArticlesAdapter() }
+    private val adapter: ArticlesAdapter by lazy {
+        ArticlesAdapter { index ->
+            viewModel.processUIEvent(UIEvent.OnArticleClicked(index))
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -23,6 +27,5 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
 
     private fun render(viewState: ViewState) {
         adapter.setData(viewState.articles)
-
     }
 }

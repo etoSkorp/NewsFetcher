@@ -1,5 +1,6 @@
 package com.example.newsfetcher.feature.di
 
+import com.example.newsfetcher.feature.bookmark.domain.BookmarksInteractor
 import com.example.newsfetcher.feature.data.ArticlesRemoteSource
 import com.example.newsfetcher.feature.data.ArticlesRepository
 import com.example.newsfetcher.feature.data.ArticlesRepositoryImpl
@@ -23,6 +24,9 @@ val mainScreenModule = module {
     single<ArticlesInteractor> { ArticlesInteractor(articlesRepository = get<ArticlesRepository>()) }
 
     viewModel {
-        MainScreenViewModel(interactor = get<ArticlesInteractor>())
+        MainScreenViewModel(
+            articlesInteractor = get<ArticlesInteractor>(),
+            bookmarksInteractor = get<BookmarksInteractor>()
+        )
     }
 }

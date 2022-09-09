@@ -1,4 +1,4 @@
-package com.example.newsfetcher.feature.mainscreen
+package com.example.newsfetcher.feature.bookmark.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newsfetcher.R
 import com.example.newsfetcher.feature.domain.ArticleModel
 
-class ArticlesAdapter(val onArticleClicked: (Int) -> Unit) :
-    RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {
+class BookmarksAdapter() : RecyclerView.Adapter<BookmarksAdapter.ViewHolder>() {
 
     private var articlesData: List<ArticleModel> = emptyList()
 
@@ -39,10 +38,6 @@ class ArticlesAdapter(val onArticleClicked: (Int) -> Unit) :
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
-        viewHolder.itemView.setOnClickListener {
-            onArticleClicked.invoke(position)
-        }
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
