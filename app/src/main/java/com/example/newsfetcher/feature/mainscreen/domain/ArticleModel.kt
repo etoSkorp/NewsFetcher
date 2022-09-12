@@ -1,4 +1,4 @@
-package com.example.newsfetcher.feature.domain
+package com.example.newsfetcher.feature.mainscreen.domain
 
 data class ArticleModel(
     val author: String,

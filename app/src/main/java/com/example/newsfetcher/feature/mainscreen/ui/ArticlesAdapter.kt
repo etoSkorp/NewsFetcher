@@ -1,4 +1,4 @@
-package com.example.newsfetcher.feature.mainscreen
+package com.example.newsfetcher.feature.mainscreen.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsfetcher.R
-import com.example.newsfetcher.feature.domain.ArticleModel
+import com.example.newsfetcher.feature.mainscreen.domain.ArticleModel
 
 class ArticlesAdapter(val onArticleClicked: (Int) -> Unit) :
     RecyclerView.Adapter<ArticlesAdapter.ViewHolder>() {

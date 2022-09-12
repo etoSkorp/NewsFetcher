@@ -1,11 +1,11 @@
-package com.example.newsfetcher.feature.mainscreen
+package com.example.newsfetcher.feature.mainscreen.ui
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.newsfetcher.base.BaseViewModel
 import com.example.newsfetcher.base.Event
 import com.example.newsfetcher.feature.bookmark.domain.BookmarksInteractor
-import com.example.newsfetcher.feature.domain.ArticlesInteractor
+import com.example.newsfetcher.feature.mainscreen.domain.ArticlesInteractor
 import kotlinx.coroutines.launch
 
 class MainScreenViewModel(
@@ -17,7 +17,11 @@ class MainScreenViewModel(
         processDataEvent(DataEvent.LoadArticles)
     }
 
-    override fun initialViewState(): ViewState = ViewState(articles = emptyList())
+    override fun initialViewState(): ViewState = ViewState(
+        articlesList = emptyList(),
+        articlesShown = emptyList(),
+        isSearchEnabled = false
+    )
 
     override fun reduce(event: Event, previousState: ViewState): ViewState? {
         when (event) {
@@ -35,13 +39,27 @@ class MainScreenViewModel(
                 return null
             }
             is DataEvent.OnLoadArticlesSucceed -> {
-                return previousState.copy(articles = event.articles)
+                return previousState.copy(
+                    articlesList = event.articlesList,
+                    articlesShown = event.articlesList
+                )
             }
             is UIEvent.OnArticleClicked -> {
                 viewModelScope.launch {
-                    bookmarksInteractor.create(previousState.articles[event.index])
+                    bookmarksInteractor.create(previousState.articlesShown[event.index])
                 }
                 return null
+            }
+            is UIEvent.OnSearchButtonClicked -> {
+                return previousState.copy(
+                    articlesShown = if (previousState.isSearchEnabled) previousState.articlesList else previousState.articlesShown,
+                    isSearchEnabled = !previousState.isSearchEnabled
+                )
+            }
+            is UIEvent.OnSearchEditTextInput -> {
+                return previousState.copy(articlesShown = previousState.articlesList.filter {
+                    it.title.lowercase().contains(event.textLowerCase)
+                })
             }
             else -> return null
         }

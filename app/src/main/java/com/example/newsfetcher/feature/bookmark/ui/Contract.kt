@@ -1,7 +1,7 @@
 package com.example.newsfetcher.feature.bookmark.ui
 
 import com.example.newsfetcher.base.Event
-import com.example.newsfetcher.feature.domain.ArticleModel
+import com.example.newsfetcher.feature.mainscreen.domain.ArticleModel
 
 data class ViewState(
     val bookmarksArticle: List<ArticleModel>
