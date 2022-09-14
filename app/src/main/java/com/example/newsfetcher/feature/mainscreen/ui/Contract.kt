@@ -10,7 +10,7 @@ data class ViewState(
 )
 
 sealed class UIEvent : Event {
-    data class OnArticleClicked(val index: Int) : UIEvent()
+    data class OnBookmarkIconClicked(val index: Int) : UIEvent()
     object OnSearchButtonClicked : UIEvent()
     data class OnSearchEditTextInput(val textLowerCase: String) : UIEvent()
 }

@@ -3,8 +3,11 @@ package com.example.newsfetcher.feature.bookmark.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.newsfetcher.R
 import com.example.newsfetcher.feature.mainscreen.domain.ArticleModel
 
@@ -19,11 +22,15 @@ class BookmarksAdapter() : RecyclerView.Adapter<BookmarksAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvTitle: TextView
         val tvPublishedAt: TextView
+        val ivBookmark: ImageView
+        val ivUrlToImage: ImageView
 
         init {
             // Define click listener for the ViewHolder's View.
             tvTitle = view.findViewById(R.id.tvTitle)
             tvPublishedAt = view.findViewById(R.id.tvPublishedAt)
+            ivBookmark = view.findViewById(R.id.ivBookmark)
+            ivUrlToImage = view.findViewById(R.id.ivUrlToImage)
         }
     }
 
@@ -43,6 +50,11 @@ class BookmarksAdapter() : RecyclerView.Adapter<BookmarksAdapter.ViewHolder>() {
         // contents of the view with that element
         viewHolder.tvTitle.text = articlesData[position].title
         viewHolder.tvPublishedAt.text = articlesData[position].publishedAt
+        Glide
+            .with(viewHolder.itemView)
+            .load(articlesData[position].urlToImage)
+            .transform(RoundedCorners(30))
+            .into(viewHolder.ivUrlToImage)
     }
 
     // Return the size of your dataset (invoked by the layout manager)

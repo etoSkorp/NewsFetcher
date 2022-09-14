@@ -44,7 +44,7 @@ class MainScreenViewModel(
                     articlesShown = event.articlesList
                 )
             }
-            is UIEvent.OnArticleClicked -> {
+            is UIEvent.OnBookmarkIconClicked -> {
                 viewModelScope.launch {
                     bookmarksInteractor.create(previousState.articlesShown[event.index])
                 }
@@ -57,9 +57,10 @@ class MainScreenViewModel(
                 )
             }
             is UIEvent.OnSearchEditTextInput -> {
-                return previousState.copy(articlesShown = previousState.articlesList.filter {
-                    it.title.lowercase().contains(event.textLowerCase)
-                })
+                return previousState.copy(
+                    articlesShown = previousState.articlesList.filter {
+                        it.title.lowercase().contains(event.textLowerCase)
+                    })
             }
             else -> return null
         }

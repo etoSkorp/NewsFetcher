@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsfetcher.R
+import com.example.newsfetcher.feature.mainscreen.domain.ArticleModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
@@ -21,9 +22,10 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
     private val tvMainTitle: TextView by lazy { requireActivity().findViewById(R.id.tvMainTitle) }
     private val etSearch: EditText by lazy { requireActivity().findViewById(R.id.etSearch) }
     private val adapter: ArticlesAdapter by lazy {
-        ArticlesAdapter { index ->
-            viewModel.processUIEvent(UIEvent.OnArticleClicked(index))
-        }
+        ArticlesAdapter(
+            { index -> viewModel.processUIEvent(UIEvent.OnBookmarkIconClicked(index)) },
+            { expandNews -> showNews(expandNews) }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,5 +64,16 @@ class MainScreenFragment : Fragment(R.layout.fragment_main_screen) {
         etSearch.isVisible = viewState.isSearchEnabled
         etSearch.requestFocus()
         adapter.setData(viewState.articlesShown)
+    }
+
+    private fun showNews(news: ArticleModel) {
+        val bundle = Bundle()
+        bundle.putString("title", news.title)
+        bundle.putString("url", news.url)
+        bundle.putString("description", news.description)
+        bundle.putString("publishedAt", news.publishedAt)
+        bundle.putString("urlToImage", news.urlToImage)
+        parentFragmentManager.beginTransaction().replace(R.id.container, NewsFragment(bundle))
+            .addToBackStack(null).commit()
     }
 }
