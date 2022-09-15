@@ -1,6 +1,7 @@
 package com.example.newsfetcher
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.newsfetcher.di.databaseModule
 import com.example.newsfetcher.di.networkModule
 import com.example.newsfetcher.feature.bookmark.di.bookmarksModule
@@ -18,5 +19,8 @@ class App : Application() {
             androidContext(this@App)
             modules(networkModule, mainScreenModule, databaseModule, bookmarksModule)
         }
+
+        // Чтобы приложение использовало темную тему в зависимости от системы
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 }
